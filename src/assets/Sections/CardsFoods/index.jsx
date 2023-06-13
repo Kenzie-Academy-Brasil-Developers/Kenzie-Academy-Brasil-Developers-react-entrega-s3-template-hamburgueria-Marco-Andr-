@@ -1,9 +1,19 @@
 import React, { useState } from 'react'
 import { SectionCardsFood, DivCard, ImgCardFood, DivInformation, NameOfFood, CategoryName, ValueStyled, ButtonStyled } from './styled'
 
-export const CardFood = ({ foodList, setSelectedItems }) => {
+export const CardFood = ({ foodList, selectedItems, setSelectedItems }) => {
 
     const handleAddItem = (food) => {
+        let itemExists = false
+        selectedItems.forEach((item) => {
+            if (item.id === food.id) {
+                itemExists = true
+            }
+        })
+        if (itemExists) {
+            alert('Item já adicionado');
+            return
+        }
         setSelectedItems(prevItems => [...prevItems, food])
     }
 

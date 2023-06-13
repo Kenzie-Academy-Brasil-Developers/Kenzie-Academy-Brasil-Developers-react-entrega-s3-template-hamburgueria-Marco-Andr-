@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { GlobalStyle } from './assets/GlobalStyled/GlobalStyled'
+import axios from 'axios'
+import { GlobalStyle } from './assets/GlobalStyled/GlobalStyled.js'
 import { Header } from './assets/Header'
 import { CardFood } from './assets/Sections/CardsFoods'
 
@@ -10,10 +11,14 @@ const App = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      const response = await fetch('https://hamburgueria-kenzie-json-serve.herokuapp.com/products')
-      const json = await response.json()
-      setFoodList(json)
+      try {
+        const response = await axios.get('https://hamburgueria-kenzie-json-serve.herokuapp.com/products')
+        setFoodList(response.data)
+      } catch (error) {
+        console.error('Erro ao carregar os dados:', error)
+      }
     }
+  
     loadData()
   }, [])
 
@@ -29,7 +34,7 @@ const App = () => {
     <>
       <GlobalStyle />
       <Header onSearch={handleSearch} selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
-      <CardFood foodList={filteredFoodList} setSelectedItems={setSelectedItems} />
+      <CardFood foodList={filteredFoodList} selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
     </>
   )
 }

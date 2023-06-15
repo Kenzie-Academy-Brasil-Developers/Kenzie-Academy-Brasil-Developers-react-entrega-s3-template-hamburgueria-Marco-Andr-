@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { SectionCardsFood, DivCard, ImgCardFood, DivInformation, NameOfFood, CategoryName, ValueStyled, ButtonStyled } from './styled'
+import { Toastfy } from '../Toastfy'
 
 export const CardFood = ({ foodList, selectedItems, setSelectedItems }) => {
+    const [showToast, setShowToast] = useState(false)
 
     const handleAddItem = (food) => {
         let itemExists = false
@@ -11,7 +13,8 @@ export const CardFood = ({ foodList, selectedItems, setSelectedItems }) => {
             }
         })
         if (itemExists) {
-            alert('Item já adicionado');
+            setShowToast(true)
+            setTimeout(() => { setShowToast(false) }, 5000)
             return
         }
         setSelectedItems(prevItems => [...prevItems, food])
@@ -30,6 +33,7 @@ export const CardFood = ({ foodList, selectedItems, setSelectedItems }) => {
                     </DivInformation>
                 </DivCard>
             ))}
+            {showToast && <Toastfy />}
         </SectionCardsFood>
     )
 }
